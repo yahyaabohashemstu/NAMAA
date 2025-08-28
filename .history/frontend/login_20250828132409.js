@@ -44,6 +44,7 @@ document
         body: JSON.stringify({ username, password }),
       });
 
+
       let data;
       try {
         data = await response.json();
