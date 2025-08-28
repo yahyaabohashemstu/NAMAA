@@ -1,0 +1,48 @@
+# ملفات Git
+.git
+.gitignore
+
+# ملفات Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# ملفات البيئة
+.env
+.env.local
+.env.production
+
+# ملفات النظام
+.DS_Store
+Thumbs.db
+
+# ملفات التطوير
+*.log
+*.tmp
+*.swp
+*.swo
+
+# مجلدات التطوير
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+
+# ملفات النسخ الاحتياطية
+*.tar.gz
+*.zip
+*.rar
+
+# ملفات التوثيق
+README.md
+DEPLOYMENT.md
+*.txt
+
+# ملفات أخرى
+*.md
+!README.md

@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>منصة إنشاء الأسئلة</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- شريط التنقل -->
+      <nav class="navbar">
+        <div class="navbar-brand">
+          <i class="fas fa-graduation-cap"></i>
+          <span>منصة إنشاء الأسئلة</span>
+        </div>
+        <div class="navbar-user">
+          <span id="userInfo" class="user-info">
+            <i class="fas fa-user"></i>
+            <span id="userName">جار التحميل...</span>
+          </span>
+          <button id="logoutBtn" class="logout-btn" onclick="logout()">
+            <i class="fas fa-sign-out-alt"></i>
+            تسجيل الخروج
+          </button>
+        </div>
+      </nav>
+
+      <div id="mainContent">
+        <!-- أزرار التنقل -->
+        <div class="nav-tabs">
+          <button class="nav-tab active" onclick="showTab('create')">
+            <i class="fas fa-plus"></i>
+            إنشاء أسئلة جديدة
+          </button>
+          <button class="nav-tab" onclick="showTab('saved')">
+            <i class="fas fa-save"></i>
+            السجلات المحفوظة
+          </button>
+          <button
+            class="nav-tab"
+            id="addTrainerTabBtn"
+            onclick="showTab('addTrainer')"
+            style="display: none"
+          >
+            <i class="fas fa-user-plus"></i>
+            إضافة مدرب
+          </button>
+          <button
+            class="nav-tab"
+            id="editTabBtn"
+            onclick="showTab('edit')"
+            style="display: none"
+          >
+            <i class="fas fa-edit"></i>
+            تعديل الملف
+          </button>
+        </div>
+
+        <!-- تبويب إضافة مدرب (يظهر للمشرف فقط) -->
+        <div id="addTrainerTab" class="tab-content">
+          <div class="create-header">
+            <h1>إضافة مدرب جديد</h1>
+          </div>
+          <form
+            id="addTrainerForm"
+            onsubmit="return addTrainerFromAdmin(event)"
+          >
+            <section
+              class="info-block"
+              style="
+                border: 2px solid #eee;
+                border-radius: 8px;
+                padding: 18px;
+                margin-bottom: 24px;
+                background: #fafafa;
+              "
+            >
+              <div style="display: flex; gap: 24px; flex-wrap: wrap">
+                <div style="flex: 1; min-width: 220px">
+                  <label for="newTrainerName" style="font-weight: bold"
+                    >اسم المدرب:</label
+                  >
+                  <input
+                    type="text"
+                    id="newTrainerName"
+                    name="newTrainerName"
+                    class="form-control"
+                    required
+                    style="width: 100%; margin-top: 6px; margin-bottom: 12px"
+                  />
+                </div>
+                <div style="flex: 1; min-width: 220px">
+                  <label for="newTrainerUsername" style="font-weight: bold"
+                    >اسم المستخدم:</label
+                  >
+                  <div style="display: flex; gap: 8px; align-items: center">
+                    <input
+                      type="text"
+                      id="newTrainerUsername"
+                      name="newTrainerUsername"
+                      class="form-control"
+                      required
+                      style="width: 100%; margin-top: 6px; margin-bottom: 12px"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-primary btn-sm suggest-username-btn"
+                      id="suggestUsernameBtn"
+                      title="اقتراح اسم المستخدم"
+                      style="
+                        margin-top: 6px;
+                        height: 38px;
+                        min-width: 120px;
+                        font-weight: 600;
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                      "
+                      onclick="suggestTrainerUsername()"
+                    >
+                      <i class="fas fa-user-plus"></i> اقتراح اسم المستخدم
+                    </button>
+                  </div>
+                </div>
+                <div style="flex: 1; min-width: 220px">
+                  <label for="newTrainerPassword" style="font-weight: bold"
+                    >كلمة المرور:</label
+                  >
+                  <div style="display: flex; gap: 8px; align-items: center">
+                    <input
+                      type="password"
+                      id="newTrainerPassword"
+                      name="newTrainerPassword"
+                      class="form-control"
+                      required
+                      style="width: 100%; margin-top: 6px; margin-bottom: 12px"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-success btn-sm suggest-password-btn"
+                      id="suggestPasswordBtn"
+                      title="اقتراح كلمة السر"
+                      style="
+                        margin-top: 6px;
+                        height: 38px;
+                        min-width: 120px;
+                        font-weight: 600;
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                      "
+                      onclick="suggestTrainerPassword()"
+                    >
+                      <i class="fas fa-key"></i> اقتراح كلمة السر
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-light"
+                      onclick="togglePasswordVisibility('newTrainerPassword', this)"
+                      title="إظهار/إخفاء كلمة المرور"
+                      style="margin-top: 6px; height: 38px"
+                    >
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
+                </div>
+                <div style="flex: 1; min-width: 220px">
+                  <label
+                    for="newTrainerPasswordConfirm"
+                    style="font-weight: bold"
+                    >تأكيد كلمة المرور:</label
+                  >
+                  <div style="display: flex; gap: 8px; align-items: center">
+                    <input
+                      type="password"
+                      id="newTrainerPasswordConfirm"
+                      name="newTrainerPasswordConfirm"
+                      class="form-control"
+                      required
+                      style="width: 100%; margin-top: 6px; margin-bottom: 6px"
+                    />
+                    <button
+                      type="button"
+                      class="btn btn-light"
+                      onclick="togglePasswordVisibility('newTrainerPasswordConfirm', this)"
+                      title="إظهار/إخفاء كلمة المرور"
+                      style="margin-top: 6px; height: 38px"
+                    >
+                      <i class="fas fa-eye"></i>
+                    </button>
+                  </div>
+                  <small
+                    id="passwordMatchStatus"
+                    class="form-text"
+                    style="display: block; min-height: 20px; font-weight: 600"
+                  ></small>
+                </div>
+              </div>
+            </section>
+            <div class="text-center mt-4">
+              <button type="submit" class="save-btn">
+                <i class="fas fa-user-plus"></i>
+                إضافة المدرب
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- قسم المدربون الحاليون (يظهر فقط في تبويب إضافة المدرب) -->
+        <div
+          id="currentTrainersSection"
+          class="info-block"
+          style="
+            margin-top: 32px;
+            border: 2px solid #e0e7ef;
+            border-radius: 10px;
+            background: #f8fafc;
+            padding: 18px;
+            display: none;
+          "
+        >
+          <h2 style="margin-bottom: 18px; color: #2563eb; font-weight: bold">
+            <i class="fas fa-users"></i> المدربون الحاليون
+          </h2>
+          <div style="overflow-x: auto">
+            <table
+              id="trainersListTable"
+              class="table table-striped table-bordered"
+              style="min-width: 420px; background: #fff"
+            >
+              <thead style="background: #e0e7ef">
+                <tr>
+                  <th>الرتبة</th>
+                  <th>اسم المدرب</th>
+                  <th>اسم المستخدم</th>
+                  <th>كلمة المرور</th>
+                  <th>تعديل</th>
+                </tr>
+              </thead>
+              <tbody id="trainersListBody">
+                <tr>
+                  <td colspan="5" style="text-align: center; color: #888">
+                    جاري التحميل...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- تبويب إنشاء أسئلة جديدة -->
+        <div id="createTab" class="tab-content active">
+          <div class="create-header">
+            <h1>إنشاء الأسئلة التعليمية</h1>
+            <button
+              type="button"
+              class="reset-btn"
+              onclick="resetForm()"
+              title="تصفير جميع الحقول والأسئلة"
+            >
+              <i class="fas fa-redo-alt"></i> تصفير
+            </button>
+          </div>
+          <form id="questionForm">
+            <!-- قسم معلومات الاختبار والمدرب -->
+            <section
+              id="trainer-info"
+              class="info-block"
+              style="
+                border: 2px solid #eee;
+                border-radius: 8px;
+                padding: 18px;
+                margin-bottom: 24px;
+                background: #fafafa;
+              "
+            >
+              <h3 style="margin-bottom: 16px; color: #2c3e50">
+                معلومات الاختبار والمدرب
+              </h3>
+              <div style="display: flex; gap: 24px; flex-wrap: wrap">
+                <div style="flex: 1; min-width: 220px">
+                  <label for="lessonName" style="font-weight: bold"
+                    >اسم الدرس:</label
+                  >
+                  <input
+                    type="text"
+                    id="lessonName"
+                    name="lessonName"
+                    class="form-control"
+                    required
+                    style="width: 100%; margin-top: 6px; margin-bottom: 12px"
+                  />
+                </div>
+                <div style="flex: 1; min-width: 220px">
+                  <label for="trainerName" style="font-weight: bold"
+                    >اسم المدرب:</label
+                  >
+                  <input
+                    type="text"
+                    id="trainerName"
+                    name="trainerName"
+                    class="form-control"
+                    required
+                    style="width: 100%; margin-top: 6px; margin-bottom: 12px"
+                  />
+                </div>
+              </div>
+              <div style="margin-top: 16px">
+                <label for="examName" style="font-weight: bold"
+                  >اسم الاختبار:</label
+                >
+                <input
+                  type="text"
+                  id="examName"
+                  name="examName"
+                  class="form-control"
+                  placeholder="مثال: اختبار الوحدة الأولى - الفصل الدراسي الأول"
+                  style="width: 100%; margin-top: 6px; margin-bottom: 12px"
+                />
+              </div>
+            </section>
+            <!-- نهاية قسم معلومات الاختبار والمدرب -->
+
+            <!-- قسم نص الدرس واقتراح الأسئلة -->
+            <section
+              id="lesson-text-section"
+              class="info-block"
+              style="
+                border: 2px solid #e3f2fd;
+                border-radius: 8px;
+                padding: 18px;
+                margin-bottom: 24px;
+                background: #f3f8ff;
+              "
+            >
+              <h3 style="margin-bottom: 16px; color: #1976d2">
+                <i class="fas fa-lightbulb"></i> نص الدرس واقتراح الأسئلة
+              </h3>
+              <div style="margin-bottom: 16px">
+                <label
+                  for="lessonText"
+                  style="font-weight: bold; display: block; margin-bottom: 8px"
+                >
+                  نص الدرس:
+                </label>
+
+                <!-- خيارات إدخال النص -->
+                <div class="input-options" style="margin-bottom: 16px">
+                  <button
+                    type="button"
+                    class="option-btn active"
+                    data-option="text"
+                    onclick="switchInputOption('text')"
+                  >
+                    <i class="fas fa-pen"></i> كتابة النص
+                  </button>
+                  <button
+                    type="button"
+                    class="option-btn"
+                    data-option="file"
+                    onclick="switchInputOption('file')"
+                  >
+                    <i class="fas fa-file-upload"></i> رفع ملف
+                  </button>
+                </div>
+
+                <!-- خيار كتابة النص -->
+                <div id="textInput" class="input-section active">
+                  <textarea
+                    id="lessonText"
+                    name="lessonText"
+                    class="form-control"
+                    rows="6"
+                    placeholder="أدخل نص الدرس هنا... سيتم استخدامه لاقتراح أسئلة مناسبة باستخدام الذكاء الاصطناعي"
+                    style="
+                      width: 100%;
+                      resize: vertical;
+                      font-family: 'Cairo', sans-serif;
+                    "
+                  ></textarea>
+                </div>
+
+                <!-- خيار رفع الملف -->
+                <div id="fileInput" class="input-section">
+                  <div
+                    style="
+                      text-align: center;
+                      padding: 20px;
+                      border: 2px dashed #1976d2;
+                      border-radius: 8px;
+                      background: #f8faff;
+                    "
+                  >
+                    <input
+                      type="file"
+                      id="lessonFile"
+                      accept=".pdf,.docx,.txt,.rtf,.jpg,.jpeg,.png,.gif,.bmp"
+                      style="display: none"
+                      onchange="handleFileUpload(this)"
+                    />
+
+                    <!-- عنصر uploadPlaceholder المفقود -->
+                    <div id="uploadPlaceholder">
+                      <i
+                        class="fas fa-cloud-upload-alt"
+                        style="
+                          font-size: 2rem;
+                          color: #1976d2;
+                          margin-bottom: 8px;
+                        "
+                      ></i>
+                      <p style="margin: 0; font-weight: bold; color: #1976d2">
+                        اضغط على الزر أدناه لرفع ملف الدرس
+                      </p>
+                      <small
+                        style="color: #666; display: block; margin-top: 8px"
+                      >
+                        الملفات المدعومة: PDF, DOCX, TXT, RTF, JPG, PNG, GIF,
+                        BMP
+                      </small>
+                    </div>
+
+                    <button
+                      type="button"
+                      class="btn btn-primary"
+                      style="
+                        padding: 12px 24px;
+                        font-size: 16px;
+                        margin: 16px 0;
+                      "
+                      onclick="document.getElementById('lessonFile').click()"
+                    >
+                      <i class="fas fa-file-upload"></i>
+                      اختر ملف الدرس
+                    </button>
+                  </div>
+
+                  <div
+                    class="file-info"
+                    id="fileInfo"
+                    style="
+                      display: none;
+                      margin-top: 16px;
+                      padding: 12px;
+                      background: #e8f5e8;
+                      border-radius: 6px;
+                      border: 1px solid #c8e6c9;
+                    "
+                  >
+                    <i class="fas fa-file-alt" style="color: #1976d2"></i>
+                    <span
+                      id="fileName"
+                      style="margin: 0 8px; font-weight: bold"
+                    ></span>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-danger"
+                      onclick="removeUploadedFile()"
+                      style="margin-left: 8px"
+                    >
+                      <i class="fas fa-times"></i>
+                      إزالة
+                    </button>
+                  </div>
+
+                  <div
+                    class="file-status"
+                    id="fileStatus"
+                    style="display: none; margin-top: 16px"
+                  >
+                    <div class="progress-bar">
+                      <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <span
+                      id="statusText"
+                      style="
+                        display: block;
+                        margin-top: 8px;
+                        text-align: center;
+                      "
+                      >جار معالجة الملف...</span
+                    >
+                  </div>
+                </div>
+              </div>
+              <!-- قسم عدد الأسئلة -->
+              <div class="question-count-section" style="margin-bottom: 20px">
+                <h5 style="margin-bottom: 15px; color: #333; font-weight: bold">
+                  <i class="fas fa-calculator"></i> عدد الأسئلة
+                </h5>
+                <div
+                  style="
+                    display: flex;
+                    gap: 20px;
+                    align-items: center;
+                    flex-wrap: wrap;
+                    background: #f8f9fa;
+                    padding: 15px;
+                    border-radius: 8px;
+                    border: 1px solid #e9ecef;
+                  "
+                >
+                  <!-- أسئلة صح وخطأ -->
+                  <div class="question-count-option true-false-option">
+                    <label for="trueFalseCount" class="count-label">
+                      <i class="fas fa-check-circle" style="color: #28a745"></i>
+                      صح وخطأ:
+                    </label>
+                    <input
+                      type="number"
+                      id="trueFalseCount"
+                      class="form-control count-input"
+                      min="0"
+                      max="100"
+                      value="2"
+                    />
+                  </div>
+
+                  <!-- أسئلة متعددة الخيارات -->
+                  <div class="question-count-option multiple-choice-option">
+                    <label for="multipleChoiceCount" class="count-label">
+                      <i class="fas fa-list-ul" style="color: #007bff"></i>
+                      متعدد الخيارات:
+                    </label>
+                    <input
+                      type="number"
+                      id="multipleChoiceCount"
+                      class="form-control count-input"
+                      min="0"
+                      max="100"
+                      value="2"
+                    />
+                  </div>
+
+                  <!-- أسئلة كتابية -->
+                  <div class="question-count-option classic-option">
+                    <label for="classicCount" class="count-label">
+                      <i class="fas fa-pen" style="color: #6f42c1"></i> كتابي:
+                    </label>
+                    <input
+                      type="number"
+                      id="classicCount"
+                      class="form-control count-input"
+                      min="0"
+                      max="100"
+                      value="1"
+                    />
+                  </div>
+                </div>
+
+                <!-- المجموع -->
+                <div class="question-total-box">
+                  <span class="total-label">
+                    <i class="fas fa-equals"></i>
+                    المجموع:
+                  </span>
+                  <span id="totalQuestionsCount">5</span>
+                </div>
+                <div
+                  id="totalWarningMsg"
+                  class="total-warning-msg"
+                  style="display: none; text-align: center; margin-top: 10px"
+                ></div>
+              </div>
+
+              <!-- زر اقتراح الأسئلة -->
+              <div style="text-align: center; margin-top: 20px">
+                <button
+                  type="button"
+                  id="suggestQuestionsBtn"
+                  class="btn btn-primary btn-lg"
+                  onclick="suggestQuestions()"
+                  style="
+                    background: #1976d2;
+                    border-color: #1976d2;
+                    padding: 12px 32px;
+                    font-size: 16px;
+                  "
+                >
+                  <i class="fas fa-magic"></i> اقتراح الأسئلة
+                </button>
+                <div
+                  id="suggestLoading"
+                  style="display: none; margin-top: 16px"
+                >
+                  <i class="fas fa-spinner fa-spin"></i> جار اقتراح الأسئلة...
+                </div>
+
+                <!-- رسالة الخطأ -->
+                <div
+                  id="suggestError"
+                  class="alert alert-danger"
+                  style="display: none; margin-top: 16px; text-align: center"
+                ></div>
+              </div>
+              <div
+                id="suggestError"
+                class="alert alert-danger"
+                style="display: none; margin-top: 12px"
+              ></div>
+            </section>
+            <!-- نهاية قسم نص الدرس واقتراح الأسئلة -->
+
+            <div id="questions"></div>
+            <!-- تم نقل أزرار الإجراءات إلى القسم العائم في أسفل الصفحة -->
+          </form>
+        </div>
+
+        <!-- تبويب السجلات المحفوظة -->
+        <div id="savedTab" class="tab-content">
+          <h1>السجلات المحفوظة</h1>
+          <div
+            id="adminSavedTabs"
+            class="admin-saved-tabs"
+            style="display: none; margin-bottom: 12px"
+          >
+            <button
+              id="btnSubTrainers"
+              class="saved-subtab active"
+              onclick="setSavedSubTab('trainers')"
+            >
+              <i class="fas fa-users"></i>
+              ملفات المدربين
+            </button>
+            <button
+              id="btnSubAdmin"
+              class="saved-subtab"
+              onclick="setSavedSubTab('admin')"
+            >
+              <i class="fas fa-user-shield"></i>
+              ملفات المشرف نورا
+            </button>
+          </div>
+          <!-- شريط الإجراءات الجماعية -->
+          <div id="bulkActionsBar" class="bulk-actions" style="display: none">
+            <span id="selectedCount" class="selected-count"
+              >لم يتم تحديد ملفات</span
+            >
+            <div class="spacer"></div>
+            <button
+              id="bulkExportBtn"
+              class="action-btn"
+              onclick="bulkExportSelected()"
+            >
+              <i class="fas fa-file-export"></i> تصدير المحدد
+            </button>
+            <button
+              id="bulkDeleteBtn"
+              class="action-btn danger"
+              onclick="bulkDeleteSelected()"
+            >
+              <i class="fas fa-trash"></i> حذف المحدد
+            </button>
+          </div>
+          <div id="savedFormsList" class="saved-forms-list">
+            <div class="loading-spinner">
+              <i class="fas fa-spinner fa-spin"></i>
+              <p>جار تحميل السجلات...</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- تبويب تعديل الملف -->
+        <div id="editTab" class="tab-content">
+          <div class="edit-header">
+            <button class="back-btn" onclick="backToSaved()">
+              <i class="fas fa-arrow-right"></i>
+              العودة للسجلات
+            </button>
+            <h1 id="editTitle">تعديل الملف</h1>
+          </div>
+          <form id="editForm">
+            <!-- قسم معلومات الاختبار والمدرب للتعديل -->
+            <section
+              id="edit-trainer-info"
+              class="info-block"
+              style="
+                border: 2px solid #eee;
+                border-radius: 8px;
+                padding: 18px;
+                margin-bottom: 24px;
+                background: #fafafa;
+              "
+            >
+              <h3 style="margin-bottom: 16px; color: #2c3e50">
+                معلومات الاختبار والمدرب
+              </h3>
+              <div style="display: flex; gap: 24px; flex-wrap: wrap">
+                <div style="flex: 1; min-width: 220px">
+                  <label for="editLessonName" style="font-weight: bold"
+                    >اسم الدرس:</label
+                  >
+                  <input
+                    type="text"
+                    id="editLessonName"
+                    name="editLessonName"
+                    class="form-control"
+                    required
+                    style="width: 100%; margin-top: 6px; margin-bottom: 12px"
+                  />
+                </div>
+                <div style="flex: 1; min-width: 220px">
+                  <label for="editTrainerName" style="font-weight: bold"
+                    >اسم المدرب:</label
+                  >
+                  <input
+                    type="text"
+                    id="editTrainerName"
+                    name="editTrainerName"
+                    class="form-control"
+                    required
+                    style="width: 100%; margin-top: 6px; margin-bottom: 12px"
+                  />
+                </div>
+              </div>
+              <div style="margin-top: 16px">
+                <label for="editExamName" style="font-weight: bold"
+                  >اسم الاختبار:</label
+                >
+                <input
+                  type="text"
+                  id="editExamName"
+                  name="editExamName"
+                  class="form-control"
+                  placeholder="مثال: اختبار الوحدة الأولى - الفصل الدراسي الأول"
+                  style="width: 100%; margin-top: 6px; margin-bottom: 12px"
+                />
+              </div>
+            </section>
+            <!-- نهاية قسم معلومات الاختبار والمدرب للتعديل -->
+            <div id="editQuestions"></div>
+            <!-- تم نقل أزرار الإجراءات إلى القسم العائم في أسفل الصفحة -->
+          </form>
+        </div>
+      </div>
+
+      <!-- قسم الإجراءات العائم -->
+      <div id="floatingActionsBar" class="floating-actions-bar">
+        <div class="floating-actions-content">
+          <!-- أزرار إنشاء أسئلة جديدة -->
+          <div id="createActions" class="action-group">
+            <button
+              type="button"
+              class="add-question-btn"
+              onclick="addQuestion()"
+            >
+              <i class="fas fa-plus"></i> إضافة سؤال
+            </button>
+            <button type="button" class="preview-btn" onclick="previewForm()">
+              <i class="fas fa-eye"></i> معاينة
+            </button>
+            <button type="button" class="save-btn" onclick="saveForm()">
+              <i class="fas fa-save"></i> حفظ النموذج
+            </button>
+            <button type="submit" class="export-btn" form="questionForm">
+              <i class="fas fa-file-word"></i> تصدير النموذج
+            </button>
+            <button
+              type="button"
+              class="save-export-btn"
+              onclick="saveAndExportForm()"
+            >
+              <i class="fas fa-download"></i> حفظ وتصدير النموذج
+            </button>
+          </div>
+
+          <!-- أزرار تعديل الملف -->
+          <div id="editActions" class="action-group" style="display: none">
+            <button
+              type="button"
+              class="add-question-btn"
+              onclick="addEditQuestion()"
+            >
+              <i class="fas fa-plus"></i> إضافة سؤال
+            </button>
+            <button
+              type="button"
+              class="preview-btn"
+              onclick="previewEditForm()"
+            >
+              <i class="fas fa-eye"></i> معاينة
+            </button>
+            <button type="button" class="save-btn" onclick="saveEditForm()">
+              <i class="fas fa-save"></i> حفظ التعديلات
+            </button>
+            <button type="button" class="export-btn" onclick="exportEditForm()">
+              <i class="fas fa-file-word"></i> تصدير النموذج
+            </button>
+            <button
+              type="button"
+              class="save-export-btn"
+              onclick="saveAndExportEditForm()"
+            >
+              <i class="fas fa-download"></i> حفظ وتصدير النموذج
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- شاشة التحميل -->
+      <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جار التحقق من تسجيل الدخول...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- نافذة المعاينة -->
+    <div id="previewModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>معاينة الأسئلة</h3>
+          <button class="close-btn" onclick="closePreview()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="previewContent"></div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" onclick="closePreview()">
+            إغلاق
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- نافذة الرسائل الجميلة -->
+    <div id="customModal" class="custom-modal">
+      <div class="custom-modal-content">
+        <div class="custom-modal-header" id="customModalHeader">
+          <i id="customModalIcon"></i>
+          <h3 class="custom-modal-title" id="customModalTitle"></h3>
+        </div>
+        <div class="custom-modal-body" id="customModalBody"></div>
+        <div class="custom-modal-footer" id="customModalFooter"></div>
+      </div>
+    </div>
+
+    <!-- نافذة تأكيد إضافة المدرب -->
+    <div id="trainerConfirmModal" class="modal">
+      <div class="modal-content trainer-confirm-modal">
+        <div class="modal-header">
+          <h3><i class="fas fa-user-plus"></i> تأكيد إضافة المدرب الجديد</h3>
+          <button class="close-btn" onclick="closeTrainerConfirmModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="trainer-info-summary">
+            <div class="info-row">
+              <label>اسم المدرب:</label>
+              <span id="confirmTrainerName"></span>
+            </div>
+            <div class="info-row">
+              <label>اسم المستخدم:</label>
+              <span id="confirmTrainerUsername"></span>
+            </div>
+            <div class="info-row">
+              <label>كلمة المرور:</label>
+              <div class="password-display">
+                <span id="confirmTrainerPassword" class="password-masked"
+                  >••••••••</span
+                >
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline-secondary"
+                  onclick="togglePasswordDisplay()"
+                >
+                  <i class="fas fa-eye"></i> كشف
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="alert alert-info">
+            <i class="fas fa-info-circle"></i>
+            <strong>تنبيه:</strong> سيتم تشفير كلمة المرور قبل حفظها في قاعدة
+            البيانات
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="closeTrainerConfirmModal()"
+          >
+            <i class="fas fa-times"></i> إلغاء
+          </button>
+          <button
+            type="button"
+            class="btn btn-success"
+            onclick="confirmAddTrainer()"
+          >
+            <i class="fas fa-check"></i> تأكيد الإضافة
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- نافذة تعديل بيانات المدرب -->
+    <div id="editTrainerModal" class="modal" style="display: none">
+      <div class="modal-content trainer-edit-modal">
+        <div class="modal-header">
+          <h3><i class="fas fa-edit"></i> تعديل بيانات المدرب</h3>
+          <button class="close-btn" onclick="closeEditTrainerModal()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="editTrainerForm" onsubmit="return saveTrainerEdit(event)">
+            <div class="form-group" style="margin-bottom: 16px">
+              <label for="editTrainerName" style="font-weight: bold"
+                >اسم المدرب:</label
+              >
+              <input
+                type="text"
+                id="editTrainerNameModal"
+                name="editTrainerName"
+                class="form-control"
+                required
+                style="width: 100%; margin-top: 6px"
+              />
+            </div>
+            <div class="form-group" style="margin-bottom: 16px">
+              <label for="editTrainerUsername" style="font-weight: bold"
+                >اسم المستخدم:</label
+              >
+              <div style="display: flex; gap: 8px; align-items: center">
+                <input
+                  type="text"
+                  id="editTrainerUsername"
+                  name="editTrainerUsername"
+                  class="form-control"
+                  required
+                  style="width: 100%; margin-top: 6px"
+                />
+                <button
+                  type="button"
+                  class="btn btn-primary btn-sm suggest-username-btn"
+                  id="editSuggestUsernameBtn"
+                  title="اقتراح اسم المستخدم"
+                  style="
+                    margin-top: 6px;
+                    height: 38px;
+                    min-width: 120px;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                  "
+                  onclick="suggestEditTrainerUsername()"
+                >
+                  <i class="fas fa-user-plus"></i> اقتراح اسم المستخدم
+                </button>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 16px">
+              <label for="editTrainerPassword" style="font-weight: bold"
+                >كلمة المرور:</label
+              >
+              <div style="display: flex; gap: 8px; align-items: center">
+                <input
+                  type="password"
+                  id="editTrainerPassword"
+                  name="editTrainerPassword"
+                  class="form-control"
+                  required
+                  style="width: 100%; margin-top: 6px"
+                />
+                <button
+                  type="button"
+                  class="btn btn-success btn-sm suggest-password-btn"
+                  id="editSuggestPasswordBtn"
+                  title="اقتراح كلمة السر"
+                  style="
+                    margin-top: 6px;
+                    height: 38px;
+                    min-width: 120px;
+                    font-weight: 600;
+                    display: flex;
+                    align-items: center;
+                    gap: 6px;
+                  "
+                  onclick="suggestEditTrainerPassword()"
+                >
+                  <i class="fas fa-key"></i> اقتراح كلمة السر
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-light"
+                  onclick="togglePasswordVisibility('editTrainerPassword', this)"
+                  title="إظهار/إخفاء كلمة المرور"
+                  style="margin-top: 6px; height: 38px"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+            <div class="form-group" style="margin-bottom: 16px">
+              <label for="editTrainerPasswordConfirm" style="font-weight: bold"
+                >تأكيد كلمة المرور:</label
+              >
+              <input
+                type="password"
+                id="editTrainerPasswordConfirm"
+                name="editTrainerPasswordConfirm"
+                class="form-control"
+                required
+                style="width: 100%; margin-top: 6px"
+              />
+              <small
+                id="editPasswordMatchStatus"
+                class="form-text"
+                style="display: block; min-height: 20px; font-weight: 600"
+              ></small>
+            </div>
+            <div
+              class="modal-footer"
+              style="
+                margin-top: 24px;
+                display: flex;
+                justify-content: flex-end;
+                gap: 12px;
+              "
+            >
+              <button
+                type="button"
+                class="btn btn-secondary"
+                onclick="closeEditTrainerModal()"
+              >
+                إلغاء
+              </button>
+              <button type="submit" class="btn btn-success">
+                <i class="fas fa-save"></i> حفظ التعديلات
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

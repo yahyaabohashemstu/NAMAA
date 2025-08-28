@@ -1,0 +1,265 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap");
+
+:root {
+  --primary-color: #4f46e5;
+  --secondary-color: #7c3aed;
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+  --light-bg: #f8fafc;
+  --border-color: #e5e7eb;
+  --text-color: #374151;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Cairo", sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  direction: rtl;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-container {
+  width: 100%;
+  max-width: 450px;
+}
+
+.login-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+}
+
+.login-header {
+  margin-bottom: 30px;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  color: white;
+  font-size: 2rem;
+  box-shadow: 0 8px 20px rgba(79, 70, 229, 0.3);
+}
+
+.login-header h1 {
+  color: var(--text-color);
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.login-header p {
+  color: #6b7280;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.login-form {
+  text-align: right;
+}
+
+.form-group {
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text-color);
+  font-weight: 600;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-group label i {
+  color: var(--primary-color);
+  width: 16px;
+}
+
+.form-control {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 1rem;
+  font-family: "Cairo", sans-serif;
+  transition: all 0.3s ease;
+  background: white;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.form-control::placeholder {
+  color: #9ca3af;
+}
+
+.alert {
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.alert-danger {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+}
+
+.login-btn {
+  width: 100%;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color)
+  );
+  color: white;
+  border: none;
+  padding: 14px 24px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: "Cairo", sans-serif;
+  margin-top: 10px;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+}
+
+.login-btn:active {
+  transform: translateY(0);
+}
+
+.demo-accounts {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+}
+
+.demo-accounts h6 {
+  color: var(--text-color);
+  font-weight: 600;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+}
+
+.account-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.account-item {
+  background: var(--light-bg);
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #6b7280;
+  border: 1px solid var(--border-color);
+}
+
+.account-item strong {
+  color: var(--primary-color);
+}
+
+/* تحميل */
+.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+.loading .login-btn {
+  position: relative;
+}
+
+.loading .login-btn::after {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* تجاوب */
+@media (max-width: 480px) {
+  .login-card {
+    padding: 30px 20px;
+  }
+
+  .login-header h1 {
+    font-size: 1.5rem;
+  }
+
+  .logo {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,10 @@
+# ملف المتغيرات البيئية - قم بنسخه إلى .env وتعديل القيم
+
+# مفتاح Google API
+GOOGLE_API_KEY=your_google_api_key_here
+
+# منفذ Backend
+PORT=5000
+
+# مجلد البيانات
+DATA_DIR=/app/data

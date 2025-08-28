@@ -1,0 +1,53 @@
+{
+  "trainers": [
+    {
+      "id": "1",
+      "name": "أحمد محمد",
+      "username": "ahmed",
+      "password": "123456",
+      "role": "trainer"
+    },
+    {
+      "id": "2",
+      "name": "فاطمة علي",
+      "username": "fatima",
+      "password": "123456",
+      "role": "trainer"
+    },
+    {
+      "id": "3",
+      "name": "محمد حسن",
+      "username": "mohammed",
+      "password": "123456",
+      "role": "trainer"
+    },
+    {
+      "id": "4",
+      "name": "نورا صباغ",
+      "username": "noura",
+      "password": "123456",
+      "role": "admin"
+    },
+    {
+      "id": "5",
+      "name": "YAHYA ABO HASHEM",
+      "username": "yahyaabohashem",
+      "password": "1*QWERTyuiop1*",
+      "role": "trainer"
+    },
+    {
+      "id": "6",
+      "name": "namaa",
+      "username": "namaa",
+      "password": "1*QWERTyuiop1*",
+      "role": "trainer"
+    },
+    {
+      "id": "7",
+      "name": "sf vndfj",
+      "username": "sdfoj ndovj",
+      "password": "1230123",
+      "role": "trainer"
+    }
+  ]
+}
